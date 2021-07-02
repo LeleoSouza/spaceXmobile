@@ -1,10 +1,11 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
-interface LauncheProps {
-  launch: any;
+import {LaunchType} from '../customTypes/index';
+interface LaunchProps {
+  launch: LaunchType;
 }
-const LauncheCard: FC<LauncheProps> = ({launch}: LauncheProps) => {
+const LauncheCard: FC<LaunchProps> = ({launch}: LaunchProps) => {
   return (
     <Card>
       <Card.Title
@@ -13,8 +14,8 @@ const LauncheCard: FC<LauncheProps> = ({launch}: LauncheProps) => {
         // left={LeftContent}
       />
       <Card.Content>
-        <Title>Card title</Title>
-        <Paragraph>Card content</Paragraph>
+        {/* <Title>Card title</Title>
+        <Paragraph>Card content</Paragraph> */}
       </Card.Content>
       {/* <Card.Cover source={{uri: 'https://picsum.photos/700'}} /> */}
       <Card.Actions>

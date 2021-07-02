@@ -12,6 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../navigation/screenType';
 import LauncheCard from '../../components/LauncheCard';
+
 const LAUNCHES_QUERY = gql`
   query LaunchesQuery {
     launches {
@@ -41,13 +42,8 @@ const Launches: FC = () => {
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text> {console.log({error: error})}</Text>;
 
-  let launchMap = data.launches.map((launch: any) => {
-    return (
-      <LauncheCard
-        key={launch.flight_number + launch.mission_name}
-        launch={launch}
-      />
-    );
+  let launchMap = data.launches.map((launch: object, key: number) => {
+    return <LauncheCard key={key} launch={launch} />;
   });
   return (
     <SafeAreaView>
