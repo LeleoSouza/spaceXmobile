@@ -1,10 +1,17 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import {gql, useQuery} from '@apollo/client';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../navigation/screenType';
-
+import LauncheCard from '../../components/LauncheCard';
 const LAUNCHES_QUERY = gql`
   query LaunchesQuery {
     launches {
@@ -13,6 +20,16 @@ const LAUNCHES_QUERY = gql`
       launch_year
       launch_date_local
       launch_success
+      details
+      rocket {
+        rocket_id
+        rocket_name
+        rocket_type
+      }
+      links {
+        mission_patch_small
+        video_link
+      }
     }
   }
 `;
@@ -24,11 +41,24 @@ const Launches: FC = () => {
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text> {console.log({error: error})}</Text>;
 
+  let launchMap = data.launches.map((launch: any) => {
+    return (
+      <LauncheCard
+        key={launch.flight_number + launch.mission_name}
+        launch={launch}
+      />
+    );
+  });
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>LAUNCHES </Text>
-      <Button title="Go Home" onPress={() => navigation.navigate('Home')} />
-    </View>
+    <SafeAreaView>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>LAUNCHES </Text>
+          {launchMap}
+          <Button title="Go Home" onPress={() => navigation.navigate('Home')} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
